@@ -1,0 +1,25 @@
+🛒 Problem: Analyze a Grocery Order List
+
+You are given a list of grocery orders, and you need to process them using Java Streams. Each order has:
+
+    name (String): the name of the product
+
+    category (String): the type of item (e.g., "Fruit", "Dairy", "Bakery")
+
+    price (double): the price of the item
+
+    quantity (int): how many were bought
+
+
+✅ Your Tasks (Using Java Streams)
+
+    Group the items by category and sum up the total price per category.
+
+    Filter all items where price > 10 and collect them into a list.
+
+    Sort all orders by total cost (price * quantity) in descending order.
+
+    Get a list of item names bought more than 5 times (quantity > 5).
+
+    Compute the average item price across all orders.
+

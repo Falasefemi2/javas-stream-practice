@@ -1,3 +1,3 @@
 <!-- @format -->
 
-# A project to practice java stream
+# Projects to practice java stream
