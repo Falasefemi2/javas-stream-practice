@@ -68,7 +68,7 @@ public class Shopping {
         // Total quantity bought per product name
         Map<String, Double> averageItem = orders.stream()
                 .collect(groupingBy(Order::getCategory, averagingDouble(Order::getPrice)));
-        averageItem.forEach((a, b) -> System.err.println(a + ": " + b));
+        averageItem.forEach((a, b) -> System.out.println(a + ": " + b));
         System.out.println();
 
         Map<String, Integer> quantityPerName = orders.stream()
