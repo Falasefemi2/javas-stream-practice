@@ -32,6 +32,8 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order [name=" + name + ", category=" + category + ", price=" + price + ", quantity=" + quantity + "]";
+        return name + " (" + category + ") - Price: " + price
+                + ", Quantity: " + quantity
+                + ", Total: " + (price * quantity);
     }
 }

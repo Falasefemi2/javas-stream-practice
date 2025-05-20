@@ -3,6 +3,10 @@ package com.stream.groceryorder;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.averagingDouble;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingDouble;
+import static java.util.stream.Collectors.toList;
 
 public class Shopping {
 
@@ -18,15 +22,51 @@ public class Shopping {
                 new Order("Cake", "Bakery", 15.0, 1)
         );
 
+        // ✅ 1. Group by category and sum total value (price × quantity)
+        System.out.println("Total value per category:");
         Map<String, Double> totalPriceByCategory = orders.stream()
                 .collect(Collectors.groupingBy(
                         Order::getCategory,
-                        Collectors.summingDouble(Order::getPrice)
+                        summingDouble(order -> order.getPrice() * order.getQuantity())
                 ));
 
+        // ✅ 2. Filter items with price > 10
+        System.out.println("Items with unit price > 10:");
         totalPriceByCategory.forEach((category, total)
                 -> System.out.println(category + "\t" + total)
         );
+        System.out.println();
+
+        // ✅ 3. Sort by total cost (price × quantity) descending
+        System.out.println("Sorted by total cost (price × quantity):");
+        List<Order> priceGreaterThan10 = orders.stream()
+                .filter(p -> p.getPrice() > 10)
+                .collect(toList());
+        priceGreaterThan10.forEach(System.out::println);
+        System.out.println();
+
+        // ✅ 4. Items bought more than 5 times
+        System.out.println("Items bought more than 5 times:");
+        List<Order> sortedByTotalCost = orders.stream()
+                .sorted((o1, o2) -> Double.compare(
+                o2.getPrice() * o2.getQuantity(),
+                o1.getPrice() * o1.getQuantity()
+        ))
+                .collect(toList());
+        sortedByTotalCost.forEach(System.out::println);
+        System.out.println();
+
+        // ✅ 5. Average item price per category
+        System.out.println("Average unit price per category:");
+        List<Order> boughtFiveTimes = orders.stream()
+                .filter(q -> q.getQuantity() > 5)
+                .collect(toList());
+        boughtFiveTimes.forEach(System.out::println);
+        System.out.println();
+
+        Map<String, Double> averageItem = orders.stream()
+                .collect(groupingBy(Order::getCategory, averagingDouble(Order::getPrice)));
+        averageItem.forEach((a, b) -> System.err.println(a + ": " + b));
 
     }
 }
