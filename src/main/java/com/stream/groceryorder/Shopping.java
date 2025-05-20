@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.averagingDouble;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingDouble;
+import static java.util.stream.Collectors.summingInt;
 import static java.util.stream.Collectors.toList;
 
 public class Shopping {
@@ -64,9 +65,35 @@ public class Shopping {
         boughtFiveTimes.forEach(System.out::println);
         System.out.println();
 
+        // Total quantity bought per product name
         Map<String, Double> averageItem = orders.stream()
                 .collect(groupingBy(Order::getCategory, averagingDouble(Order::getPrice)));
         averageItem.forEach((a, b) -> System.err.println(a + ": " + b));
+        System.out.println();
+
+        Map<String, Integer> quantityPerName = orders.stream()
+                .collect(groupingBy(Order::getName, summingInt(Order::getQuantity)));
+        quantityPerName.forEach((a, b) -> System.out.println(a + ": " + b));
+        System.out.println();
+
+        // Find most expensive item (by unit price
+        Order mostExpensive = orders.stream()
+                .max((o1, o2) -> Double.compare(o1.getPrice(), o2.getPrice()))
+                .orElse(null);
+
+        if (mostExpensive != null) {
+            System.out.println("Most expensive item: " + mostExpensive);
+        }
+        System.out.println();
+
+        //  Group by category where quantity > 3
+        Map<String, List<Order>> filteredByQuantity = orders.stream()
+                .filter(order -> order.getQuantity() > 3)
+                .collect(Collectors.groupingBy(Order::getCategory));
+        System.out.println("Orders with quantity > 3 grouped by category:");
+        filteredByQuantity.forEach((category, items) -> {
+            System.out.println(category + ": " + items);
+        });
 
     }
 }
